@@ -35,3 +35,9 @@ Bản nháp dựa trên GUIDE §4 và `labels_cabin_v1.json`; cần đối chi�
    Khung ví dụ: S02_ir.png.
    Tạm gán: nếu Quang xác nhận có vật riêng biệt, dùng box riêng theo GUIDE §4.2; không kết luận vật có mặt chỉ từ tên khung.
    Lý do: guideline yêu cầu tách vật khỏi ghế; trường hợp khó nhận diện cần Coach xác nhận.
+
+## 3. Xác nhận đối chiếu slide 54
+
+- `frame_meta` không phải lớp đối tượng/box: đây là thẻ metadata của khung, gồm `modality`, `light`, `camera_blocked`.
+- Không dùng `frame_meta` để cộng thêm lớp OMS đối tượng. Khi đối chiếu slide 54, số lớp đối tượng OMS thực tế trong danh sách này là `person`, `child_seat`, `infant_seat` và `object`; các thuộc tính `seatbelt`/`occupied`/`facing` là thuộc tính của lớp tương ứng.
+- Nếu slide 54 quy định số mục OMS gồm metadata, đây là một mục bổ sung chứ không phải lớp đối tượng. Cần Coach xác nhận cách tính cuối trong buổi nộp; không tự đổi khái niệm.
