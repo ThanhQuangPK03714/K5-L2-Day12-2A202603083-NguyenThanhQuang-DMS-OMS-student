@@ -1,37 +1,30 @@
-# Tự đánh giá — Nguyễn Thanh Quang · G06
+# Tự rà soát — Nguyễn Thanh Quang · G06
 
-## 1. Tự rà soát 4 cảnh
+## Nguồn và kiểm tra
 
-Đã rà soát cục bộ ảnh và annotation XML với Codex hỗ trợ sau khi mentor cho phép. Không sửa annotation trong CVAT/XML ở lượt review này.
+Giữ `export_final.zip` làm bản ban đầu; tạo `export_final_v2.zip` từ bản rework được dựng lại trên cơ sở `HEAD:export_final.zip` và các quyết định trong log review. Checker hiện kiểm tra phạm vi nhãn theo GUIDE §4.1: face OMS chỉ là box; hand, phone và face13 không được xuất hiện trên ảnh SVIRO. Kết quả v2: 22 ảnh, 0 lỗi, 1 cảnh báo D02.
 
-| Ảnh | Đối tượng | Loại lỗi | Ghi chú | Đã sửa? |
-|---|---|---|---|---|
-| S01_rgb.png | infant_seat / object | wrong_class / missing | Infant seat facing trong mine là front, hình carrier phù hợp rear; mine thiếu object box cho thùng ở ghế giữa. Peer phân loại object tốt hơn. | Chưa; cần sửa trên CVAT và export lại nếu Quang duyệt. |
-| S03_rgb.png | infant_seat / child_seat | wrong_class | Mine gọi ghế là infant_seat; hình ghế có cánh đỡ là child_seat. Có occupant giống trẻ em; GUIDE yêu cầu báo Coach, không tự gán trẻ. Cả hai export dùng occupied=yes, ngoài schema. | Chưa. |
-| D01.png | eye_left / face13 | flag | Mặt nghiêng và tối, mắt trái không thấy rõ nên unknown; các điểm trái thiếu cờ. Điểm không định vị được nên outside. | Chưa. |
-| D06.png | eye_right / face13 | flag | Mắt phải phía xa không phân biệt; unknown an toàn hơn open. Điểm không định vị được nên outside. | Chưa. |
+## OMS rework
 
-## 1A. Kết luận sau rà soát
+- S01: infant seat `rear_right/facing=rear`; thêm object box ở `rear_middle`; bỏ nhãn DMS lọt vào SVIRO.
+- S02: carrier `rear_right`; ghế trống `child_seat/rear_left`, `occupied=no`.
+- S03: `child_seat/rear_middle`, `occupied=unknown`; thêm thùng `rear_right` và cốc `rear_left`; không gán occupant giống trẻ em thành person.
+- S04: ghế trống `child_seat/rear_right`; cốc `rear_middle`; giữ người lớn `rear_left` và face box.
+- S05: thêm cốc `rear_middle`; giữ người lớn `rear_left` và infant seat `rear_right`; không gán occupant trong carrier thành person.
+- S06: giữ người lớn `rear_left` và `child_seat/rear_right`, `occupied=unknown`; bỏ nhãn DMS khỏi OMS.
+- S07: hai box riêng — ghế trống `child_seat/rear_right`, `occupied=no`; ghế giữa `child_seat/rear_middle`, `occupied=unknown`; bỏ object box nhầm.
+- S08: carrier trống `infant_seat/rear_right/facing=rear`; bỏ nhãn DMS khỏi OMS.
 
-Các thay đổi dưới đây đã được áp dụng vào `export_final.zip`:
+## DMS rework và cảnh báo
 
-| Trường hợp | Kết luận cuối | Cơ sở |
-|---|---|---|
-| S01_rgb.png | Infant seat giữ `rear`; không thêm `object` nếu vật không thể xác nhận riêng biệt. | Không có bằng chứng rõ ràng cho box vật riêng trong khung. |
-| S03_rgb.png | Sửa ghế thành `child_seat`, `occupied=unknown`; dùng `unknown` thay vì giá trị `yes` không thuộc schema. | Hình ghế có cánh đỡ và vùng occupant không đủ rõ để khẳng định occupied. |
-| D01.png | `eye_left=unknown`; bốn landmark mắt trái đặt `outside=1`. | Mặt nghiêng/tối, không thể xác nhận bốn điểm mắt trái. |
-| D02.png | `gaze_zone=other` ở bản export tạm, thay cho center/road chưa phân biệt chắc. | Tư thế nghiêng và kính tối chưa đủ bằng chứng để chọn road hoặc center. |
-| D06.png | `eye_right=unknown`; bốn landmark mắt phải đặt `outside=1`. Giữ `eye_left=open`. | Mắt trái phía gần quan sát được; mắt phải phía xa không phân biệt. |
-| S02–S08_rgb.png | `frame_meta.light=unknown` cho ảnh RGB SVIRO dựng. | Quy tắc GUIDE về ảnh SVIRO, không có ánh sáng tự nhiên cần gán day/night. |
+- D01: `eye_left=unknown`; landmark mắt không định vị chắc đánh `outside`; điểm miệng phía xa theo trạng thái ghi trong E3.
+- D02: dùng `gaze_zone=other`; giữ mắt `unknown` và kính `unknown` trong lúc chờ Coach; tọa độ mắt giữ nguyên. Checker cảnh báo vị trí X, nhưng trên ảnh xoay 90° mắt trái có Y lớn hơn mắt phải theo GUIDE §3/CHECKPOINTS.
+- D03: `gaze_zone=other`; giữ mắt/kính `unknown` do log ghi nhận phản xạ NIR làm mờ chi tiết.
+- D05: `gaze_zone=other`; landmark vùng miệng bị chai che đánh `outside` theo review log.
+- D06: `eye_right=unknown`, bốn landmark mắt phải `outside`; `gaze_zone=lap`; điểm miệng phía xa theo trạng thái E3.
 
-## 2. Lỗi mình lặp lại nhiều nhất hôm nay
+## Việc cần Coach xác nhận
 
-Lỗi: Gán nhầm lớp OMS và để nhãn DMS (hand/face13/thuộc tính face) xuất hiện trên S##; đồng thời thiếu một số object/person/face box và có box seat chưa đúng loại.
+Chưa ghi là đã hỏi/đã được Coach xác nhận. Các ca cần xác nhận gồm D01 landmark; D02 gaze/kính và quy ước landmark; D06 mắt phải; occupant giống trẻ em ở S01/S03/S05/S06/S07; và việc dùng Codex rà ảnh cục bộ so với RULES §3. Các giá trị v2 là quyết định thận trọng tạm thời theo review log/GUIDE.
 
-Vì sao mình mắc: Khả năng đã mang thói quen/lớp từ task DMS sang OMS và chưa rà từng ghế/vật theo xe trước khi export.
-
-Lần sau tránh bằng cách: Trước mỗi ảnh xác nhận loại task, rà ba ghế sau theo xe, kiểm từng vật và chỉ dùng label theo GUIDE §4.1–4.3; chạy diff/check trước khi kết thúc.
-
-## 3. Ghi chú về disagreement_log
-
-Bài học: peer phân biệt infant_seat và child_seat đúng hơn ở S02/S04/S08, và tìm thấy các vật object bị mine bỏ sót. Diff chỉ chỉ ra nơi lệch; phải mở đúng ảnh, áp quy tắc lớp/ghế và không lấy đồng thuận làm chuẩn.
+Slide 54 không có trong workspace/repository. `class_list_v0.md` đã tách `frame_meta` khỏi lớp đối tượng và theo GUIDE/schema; chưa thể ghi là đã đối chiếu slide 54.

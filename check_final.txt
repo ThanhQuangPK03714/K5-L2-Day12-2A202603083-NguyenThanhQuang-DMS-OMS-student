@@ -4,3 +4,5 @@ File: .\export_final.zip
 Kết quả: 0 lỗi, 1 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
 
 Giải thích cảnh báo - D02.png: cảnh báo so tọa độ theo trục X của ảnh. Ảnh DMS bị xoay khoảng 90°, nên cần kiểm trái/phải theo người thay vì so máy trục X. Landmark chưa bị sửa trái/phải vì chưa có bằng chứng visual đủ mạnh. Để tránh kết luận gaze_zone sai, export tạm dùng gaze_zone=other thay cho center/road chưa phân biệt chắc.
+
+Đây là kết quả lịch sử của `export_final.zip` trước rework. Xem `check_final_v2.txt` để biết kết quả của `export_final_v2.zip`.

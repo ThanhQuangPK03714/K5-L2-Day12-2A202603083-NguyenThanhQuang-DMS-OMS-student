@@ -154,7 +154,14 @@ def check_image(img, manifest):
         x1, y1, x2, y2 = b["xyxy"]
         if x2 - x1 < 2 or y2 - y1 < 2:
             issues.append(("ERROR", n, f"{lab}: box suy biến ({x2 - x1:.0f}x{y2 - y1:.0f} px)"))
-        check_attrs(n, lab, b["attrs"], issues)
+        if is_sviro and lab in ("hand", "phone"):
+            issues.append(("ERROR", n, f"{lab}: DMS-only label is not allowed in OMS/SVIRO"))
+        if lab == "face" and is_sviro:
+            # GUIDE §4.1: OMS uses face as a box only; eye/gaze attributes are DMS-only.
+            if b["attrs"]:
+                issues.append(("ERROR", n, "OMS face must be a box without DMS attributes"))
+        else:
+            check_attrs(n, lab, b["attrs"], issues)
         if lab in SEATED_LABELS:
             seat = b["attrs"].get("seat")
             if seat == "rear_middle" and car in TWO_REAR_SEAT_CARS:
@@ -175,6 +182,9 @@ def check_image(img, manifest):
 
     # face13 skeletons
     for s in img["skeletons"]:
+        if is_sviro:
+            issues.append(("ERROR", n, "face13 is a DMS-only label and is not allowed in OMS/SVIRO"))
+            continue
         if s["label"] != "face13":
             issues.append(("ERROR", n, f"skeleton '{s['label']}' không có trong guideline"))
             continue

@@ -1,0 +1,6 @@
+File: .\export_final_v2.zip
+Ảnh: 22 · đã có frame_meta: 22 · số đối tượng: child_seat=12, face=13, face13=6, hand=12, infant_seat=8, object=10, person=16, phone=1
+  [WARN] D02.png: left_eye_outer nằm bên trái ảnh so với right_eye_outer: kiểm lại quy ước trái/phải theo người (đúng nếu mặt quay hẳn sang bên)
+Kết quả: 0 lỗi, 1 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
+
+Giải thích cảnh báo - D02.png: checker so hai mắt theo trục X. Ảnh DMS xoay khoảng 90°, nên đối chiếu theo trục Y như GUIDE §3 và CHECKPOINTS §Checkpoint B: left_eye_outer có Y lớn hơn right_eye_outer. Giữ tọa độ landmark.
