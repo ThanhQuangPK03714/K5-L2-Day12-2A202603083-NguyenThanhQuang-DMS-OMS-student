@@ -5,4 +5,4 @@ File: export_final.zip · chỉ kiểm ảnh: D01, D02
 Kết quả: 0 lỗi, 2 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
 
 Giải thích cảnh báo — D01.png: eye_left=unknown nhưng các điểm left_eye_* chưa có cờ occluded/outside; cần đối chiếu mắt và cờ điểm theo GUIDE §4.5–4.6. Chưa xác minh bằng ảnh và chưa sửa; cần học viên xem CVAT, hỏi Coach nếu còn mơ hồ.
-Giải thích cảnh báo — D02.png: vị trí left_eye_outer so với right_eye_outer bị cảnh báo theo trục X. Ảnh DMS xoay khoảng 90°; theo GUIDE §4.6 phải xét trái/phải theo người và kiểm trục Y (mắt trái có y lớn hơn), không kết luận chỉ theo X. Chưa kiểm chứng bằng ảnh/trục Y; học viên cần xác minh, Coach xem nếu trái quy tắc vẫn chưa rõ.
+Giải thích cảnh báo — D02.png: cảnh báo so theo trục X. Đã kiểm tra tọa độ trong XML: left_eye_outer y=689.23, right_eye_outer y=538.18; mắt trái có y lớn hơn, phù hợp GUIDE §4.6 cho ảnh DMS xoay 90°. Cảnh báo X không tự chứng minh lật trái/phải. Chưa xác minh trực quan vị trí điểm; Quang cần kiểm tra trên CVAT trước khi quyết định sửa.

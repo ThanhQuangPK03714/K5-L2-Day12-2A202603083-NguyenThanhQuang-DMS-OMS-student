@@ -13,7 +13,7 @@ File: export_final.zip
 Kết quả: 0 lỗi, 10 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
 
 Giải thích cảnh báo — D01.png: eye_left=unknown nhưng không có cờ occluded/outside cho left_eye_*; cần kiểm tra trạng thái mắt và cờ từng điểm theo GUIDE §4.5–4.6. Chưa xác minh bằng ảnh, chưa sửa; học viên xác minh trên CVAT, Coach xem nếu cần.
-Giải thích cảnh báo — D02.png: left_eye_outer nằm trái right_eye_outer theo trục X. DMS xoay 90° nên guideline yêu cầu kiểm theo người và trục Y (GUIDE §4.6; mắt trái có y lớn hơn), không kết luận bằng X. Chưa xác minh trục Y bằng ảnh; học viên kiểm tra trên CVAT, Coach xem nếu chưa thống nhất.
+Giải thích cảnh báo — D02.png: cảnh báo so theo trục X. Đã kiểm tra tọa độ XML: left_eye_outer y=689.23, right_eye_outer y=538.18; mắt trái có y lớn hơn theo GUIDE §4.6 cho ảnh DMS xoay 90°. Cảnh báo X không tự chứng minh lật trái/phải. Vị trí điểm vẫn cần Quang xác minh trực quan trên CVAT trước khi quyết định sửa.
 Giải thích cảnh báo — D06.png: eye_right=open nhưng cả 4 điểm right_eye_* có cờ che; GUIDE §4.5 yêu cầu unknown khi không phân biệt được mắt, và §4.6 không đặt điểm đoán. Chưa xác minh trực quan; học viên kiểm tra ảnh/cờ, Coach xem nếu còn mơ hồ.
 Giải thích cảnh báo — S02_rgb.png: ảnh SVIRO là ảnh dựng nên `light` phải là unknown theo GUIDE §3 (SVIRO). Quy tắc đã đối chiếu tài liệu, chưa sửa annotation; học viên xác nhận trên CVAT và Coach xem nếu cần.
 Giải thích cảnh báo — S03_rgb.png: ảnh SVIRO là ảnh dựng nên `light` phải là unknown theo GUIDE §3 (SVIRO). Quy tắc đã đối chiếu tài liệu, chưa sửa annotation; học viên xác nhận trên CVAT và Coach xem nếu cần.
