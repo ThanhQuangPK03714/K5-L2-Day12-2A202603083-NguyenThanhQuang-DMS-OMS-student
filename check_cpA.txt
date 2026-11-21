@@ -1,0 +1,6 @@
+File: export_final.zip · chỉ kiểm ảnh: S01, S02
+Ảnh: 4 · đã có frame_meta: 4 · số đối tượng: face=2, face13=2, hand=2, infant_seat=6, person=2
+  [WARN] S02_rgb.png: ảnh SVIRO là ảnh dựng: light nên là 'unknown'
+Kết quả: 0 lỗi, 1 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
+
+Giải thích cảnh báo — S02_rgb.png: `light` khác `unknown` trên ảnh SVIRO dựng; theo GUIDE §3 (SVIRO), light phải là unknown. Quy tắc đã xác định từ tài liệu, chưa xác minh/sửa annotation; Coach xem nếu cần quyết định sửa.
