@@ -4,5 +4,5 @@ File: export_final.zip · chỉ kiểm ảnh: D01, D02
   [WARN] D02.png: left_eye_outer nằm bên trái ảnh so với right_eye_outer: kiểm lại quy ước trái/phải theo người (đúng nếu mặt quay hẳn sang bên)
 Kết quả: 0 lỗi, 2 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
 
-Giải thích cảnh báo — D01.png: eye_left=unknown nhưng các điểm left_eye_* chưa có cờ occluded/outside; cần đối chiếu mắt và cờ điểm theo GUIDE §4.5–4.6. Chưa xác minh bằng ảnh và chưa sửa; cần học viên xem CVAT, hỏi Coach nếu còn mơ hồ.
+Giải thích cảnh báo — D01.png: đã xem ảnh cục bộ. Mặt quay nghiêng và tối nên mắt trái không phân biệt rõ; `unknown` phù hợp. Các điểm mắt trái chưa có cờ; với điểm không thể định vị ở góc mặt này, gán `outside` theo GUIDE §4.6 sau khi nhập trên CVAT. Annotation gốc chưa sửa.
 Giải thích cảnh báo — D02.png: cảnh báo so theo trục X. Đã kiểm tra tọa độ trong XML: left_eye_outer y=689.23, right_eye_outer y=538.18; mắt trái có y lớn hơn, phù hợp GUIDE §4.6 cho ảnh DMS xoay 90°. Cảnh báo X không tự chứng minh lật trái/phải. Chưa xác minh trực quan vị trí điểm; Quang cần kiểm tra trên CVAT trước khi quyết định sửa.

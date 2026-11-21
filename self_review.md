@@ -2,23 +2,23 @@
 
 ## 1. Tự rà soát 4 cảnh
 
-Rà soát cấu trúc annotation trong `export_final.zip` và các báo cáo validator; đây chưa thay thế việc mở ảnh xem trực tiếp trong CVAT.
+Đã rà soát cục bộ ảnh và annotation XML với Codex hỗ trợ sau khi mentor cho phép. Không sửa annotation trong CVAT/XML ở lượt review này.
 
 | Ảnh | Đối tượng | Loại lỗi | Ghi chú | Đã sửa? |
 |---|---|---|---|---|
-| S01_ir.png | hand, face13 | extra | Export có nhãn DMS trên ảnh OMS; GUIDE §4.2 và §4.6 giới hạn hand/face13 cho DMS. Cần sửa trên CVAT sau khi xác nhận task. | Chưa |
-| S01_rgb.png | face13 | extra | SVIRO chỉ dùng face box cho người lớn; không gán face13 trên S## (GUIDE §4.6). | Chưa |
-| D01.png | mắt trái / face13 | flag | Validator báo eye_left=unknown nhưng chưa có cờ occluded/outside cho điểm mắt trái. Chưa xem ảnh để chọn cờ đúng. | Chưa |
-| D06.png | mắt phải / face13 | flag | Validator báo eye_right=open trong khi cả bốn điểm phải đều bị đánh dấu che; cần kiểm tra trực tiếp và thống nhất trạng thái/cờ. | Chưa |
+| S01_rgb.png | infant_seat / object | wrong_class / missing | Infant seat facing trong mine là front, hình carrier phù hợp rear; mine thiếu object box cho thùng ở ghế giữa. Peer phân loại object tốt hơn. | Chưa; cần sửa trên CVAT và export lại nếu Quang duyệt. |
+| S03_rgb.png | infant_seat / child_seat | wrong_class | Mine gọi ghế là infant_seat; hình ghế có cánh đỡ là child_seat. Có occupant giống trẻ em; GUIDE yêu cầu báo Coach, không tự gán trẻ. Cả hai export dùng occupied=yes, ngoài schema. | Chưa. |
+| D01.png | eye_left / face13 | flag | Mặt nghiêng và tối, mắt trái không thấy rõ nên unknown; các điểm trái thiếu cờ. Điểm không định vị được nên outside. | Chưa. |
+| D06.png | eye_right / face13 | flag | Mắt phải phía xa không phân biệt; unknown an toàn hơn open. Điểm không định vị được nên outside. | Chưa. |
 
 ## 2. Lỗi mình lặp lại nhiều nhất hôm nay
 
-Lỗi: Gán thành phần DMS (hand/face13) vào các khung OMS S## trong export hiện có.
+Lỗi: Gán nhầm lớp OMS và để nhãn DMS (hand/face13/thuộc tính face) xuất hiện trên S##; đồng thời thiếu một số object/person/face box và có box seat chưa đúng loại.
 
-Vì sao mình mắc: Có thể đã áp nhầm danh sách label DMS khi làm OMS; đây là giả thuyết từ cấu trúc export, cần tự xác nhận.
+Vì sao mình mắc: Khả năng đã mang thói quen/lớp từ task DMS sang OMS và chưa rà từng ghế/vật theo xe trước khi export.
 
-Lần sau tránh bằng cách: Trước mỗi khung kiểm tra loại task trong GUIDE §4.1–4.2; chỉ dùng face box trong OMS và không gán hand/face13 cho S##.
+Lần sau tránh bằng cách: Trước mỗi ảnh xác nhận loại task, rà ba ghế sau theo xe, kiểm từng vật và chỉ dùng label theo GUIDE §4.1–4.3; chạy diff/check trước khi kết thúc.
 
 ## 3. Ghi chú về disagreement_log
 
-Bài học từ metadata modality: phải theo hậu tố `_rgb`/`_ir` và tạo frame_meta đầy đủ. Các kết luận về box, mắt và điểm mặt cần Quang xem trực tiếp trên CVAT trước khi chốt verdict.
+Bài học: peer phân biệt infant_seat và child_seat đúng hơn ở S02/S04/S08, và tìm thấy các vật object bị mine bỏ sót. Diff chỉ chỉ ra nơi lệch; phải mở đúng ảnh, áp quy tắc lớp/ghế và không lấy đồng thuận làm chuẩn.
